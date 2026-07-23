@@ -4,102 +4,278 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Painel de Déficit Orçamentário — CODIM/SUOP/SEFIN</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1" integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1" crossorigin="anonymous"></script>
 <style>
+/* ══════════════════════════════════════════════════════
+   MATERIALM DESIGN SYSTEM — CODIM/SUOP/SEFIN
+   ══════════════════════════════════════════════════════ */
 :root{
-  --bg:#f0f2f5;--card:#fff;--header:#0f2044;--blue:#2563eb;--red:#dc2626;
-  --green:#16a34a;--orange:#ea580c;--grey:#6b7280;--radius:10px;--gap:16px;
+  /* MaterialM palette */
+  --mm-primary:#5D87FF;
+  --mm-secondary:#49BEFF;
+  --mm-success:#13DEB9;
+  --mm-warning:#FFAE1F;
+  --mm-error:#FA896B;
+  --mm-dark:#2A3447;
+  --mm-bg:#F2F6FA;
+  --mm-surface:#FFFFFF;
+  --mm-muted:#7C8FAC;
+  --mm-border:#E5EAF2;
+  --mm-light-primary:#ECF2FF;
+  --mm-light-success:#F0FBF8;
+  --mm-light-error:#FFF3F0;
+  --mm-light-warning:#FFF8EC;
+  --sidebar-w:260px;
+  --topbar-h:64px;
+  --radius-lg:12px;
+  --radius-md:8px;
+  --shadow-card:0 7px 30px 0 rgba(90,114,123,.11);
+  --shadow-sm:0 2px 8px 0 rgba(90,114,123,.08);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:#1a1a2e;font-size:14px}
-.container{max-width:1440px;margin:0 auto;padding:var(--gap)}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--mm-bg);color:var(--mm-dark);font-size:14px;min-height:100vh}
 
-/* HEADER */
-header{background:var(--header);color:#fff;border-radius:var(--radius);padding:18px 24px;
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:var(--gap)}
-.brand h1{font-size:18px;font-weight:700}
-.brand p{font-size:11px;color:rgba(255,255,255,.6);margin-top:3px}
-.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
-.fg{display:flex;flex-direction:column;gap:3px}
-.fg label{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.55)}
-.fg select,.fg input{padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.25);
-  background:rgba(255,255,255,.12);color:#fff;font-size:12px;min-width:160px;outline:none}
-.fg select option{background:#0f2044;color:#fff}
-.fg input::placeholder{color:rgba(255,255,255,.4)}
-#clear-btn{padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.35);
-  background:transparent;color:rgba(255,255,255,.8);font-size:12px;cursor:pointer;align-self:flex-end}
-#clear-btn:hover{background:rgba(255,255,255,.1)}
-#filter-status{font-size:11px;color:rgba(255,255,255,.55);align-self:flex-end;white-space:nowrap}
+/* ── SIDEBAR ── */
+.sidebar{
+  position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;
+  background:var(--mm-dark);overflow-y:auto;z-index:100;
+  display:flex;flex-direction:column;
+}
+.sidebar-brand{
+  padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.brand-logo{display:flex;align-items:center;gap:12px}
+.brand-icon{
+  width:40px;height:40px;border-radius:var(--radius-md);
+  background:var(--mm-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.brand-icon svg{width:22px;height:22px;fill:#fff}
+.brand-text{flex:1;min-width:0}
+.brand-text h2{font-size:14px;font-weight:700;color:#fff;line-height:1.2}
+.brand-text p{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px}
+.sidebar-nav{padding:16px 12px;flex:1}
+.nav-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.8px;text-transform:uppercase;padding:8px 8px 4px;margin-top:8px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-md);
+  cursor:pointer;color:rgba(255,255,255,.65);font-size:13px;font-weight:500;margin-bottom:2px;
+  transition:background .15s,color .15s;text-decoration:none;
+}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.active{background:var(--mm-primary);color:#fff}
+.nav-item svg{width:18px;height:18px;flex-shrink:0}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-footer p{font-size:11px;color:rgba(255,255,255,.3);text-align:center}
 
-/* KPIs */
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
-.kpi{background:var(--card);border-radius:var(--radius);padding:18px 22px;
-  box-shadow:0 1px 4px rgba(0,0,0,.07);border-left:4px solid var(--blue)}
-.kpi.warn{border-left-color:var(--red)}
-.kpi-label{font-size:11px;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.kpi-value{font-size:26px;font-weight:700}
-.kpi.warn .kpi-value{color:var(--red)}
-.kpi-sub{font-size:11px;color:var(--grey);margin-top:4px}
+/* ── TOPBAR ── */
+.topbar{
+  position:fixed;top:0;left:var(--sidebar-w);right:0;height:var(--topbar-h);
+  background:#fff;border-bottom:1px solid var(--mm-border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;z-index:99;box-shadow:var(--shadow-sm);
+}
+.topbar-left{display:flex;flex-direction:column}
+.topbar-title{font-size:15px;font-weight:700;color:var(--mm-dark)}
+.topbar-sub{font-size:12px;color:var(--mm-muted);margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-badge{
+  background:var(--mm-light-primary);color:var(--mm-primary);
+  border:1px solid rgba(93,135,255,.25);border-radius:20px;
+  font-size:11px;font-weight:600;padding:4px 12px;
+}
+.topbar-date{font-size:12px;color:var(--mm-muted)}
 
-/* CHART GRID */
-.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
-.chart-grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
-.card{background:var(--card);border-radius:var(--radius);padding:20px 24px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
-.card h3{font-size:13px;font-weight:600;margin-bottom:14px;color:#1a1a2e}
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar-w);padding-top:var(--topbar-h)}
+.content{padding:24px}
+
+/* ── FILTERS BAR ── */
+.filters-bar{
+  background:#fff;border-radius:var(--radius-lg);padding:16px 20px;
+  box-shadow:var(--shadow-card);margin-bottom:20px;
+  display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;
+}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:11px;font-weight:600;color:var(--mm-muted);text-transform:uppercase;letter-spacing:.4px}
+.fg select,.fg input{
+  padding:8px 12px;border-radius:var(--radius-md);border:1.5px solid var(--mm-border);
+  background:#fff;color:var(--mm-dark);font-size:12.5px;font-family:inherit;
+  min-width:180px;outline:none;transition:border-color .15s;
+}
+.fg select:focus,.fg input:focus{border-color:var(--mm-primary)}
+#clear-btn{
+  padding:8px 18px;border-radius:var(--radius-md);border:1.5px solid var(--mm-border);
+  background:#fff;color:var(--mm-muted);font-size:13px;font-weight:500;cursor:pointer;
+  font-family:inherit;transition:all .15s;
+}
+#clear-btn:hover{border-color:var(--mm-error);color:var(--mm-error);background:var(--mm-light-error)}
+#filter-status{
+  font-size:12px;color:var(--mm-primary);background:var(--mm-light-primary);
+  padding:6px 12px;border-radius:20px;font-weight:600;white-space:nowrap;
+}
+
+/* ── KPI CARDS ── */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:20px}
+.kpi-card{
+  background:#fff;border-radius:var(--radius-lg);padding:22px;
+  box-shadow:var(--shadow-card);display:flex;align-items:center;gap:16px;
+}
+.kpi-icon{
+  width:52px;height:52px;border-radius:var(--radius-md);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.kpi-icon svg{width:26px;height:26px}
+.kpi-icon.blue{background:var(--mm-light-primary)}
+.kpi-icon.blue svg{fill:var(--mm-primary)}
+.kpi-icon.red{background:var(--mm-light-error)}
+.kpi-icon.red svg{fill:var(--mm-error)}
+.kpi-icon.warn{background:var(--mm-light-warning)}
+.kpi-icon.warn svg{fill:var(--mm-warning)}
+.kpi-icon.success{background:var(--mm-light-success)}
+.kpi-icon.success svg{fill:var(--mm-success)}
+.kpi-body{flex:1;min-width:0}
+.kpi-label{font-size:12px;font-weight:600;color:var(--mm-muted);margin-bottom:4px;letter-spacing:.2px}
+.kpi-value{font-size:22px;font-weight:700;line-height:1.1}
+.kpi-value.red{color:var(--mm-error)}
+.kpi-value.warn{color:var(--mm-warning)}
+.kpi-value.blue{color:var(--mm-primary)}
+.kpi-sub{font-size:11px;color:var(--mm-muted);margin-top:3px}
+
+/* ── CHART GRID ── */
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:20px;margin-bottom:20px}
+.chart-grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:20px}
+
+/* ── CARD ── */
+.mm-card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-card);overflow:hidden}
+.mm-card-header{padding:18px 20px 0;border-bottom:0}
+.mm-card-header h3{font-size:14px;font-weight:700;color:var(--mm-dark)}
+.mm-card-header p{font-size:12px;color:var(--mm-muted);margin-top:2px}
+.mm-card-body{padding:16px 20px 20px}
 .chart-wrap{position:relative;height:300px}
-.chart-wrap-sm{position:relative;height:220px}
+.chart-wrap-sm{position:relative;height:230px}
 
-/* TABLE */
-.tbl-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.tbl-header h3{font-size:13px;font-weight:600}
-.tbl-count{font-size:11px;color:var(--grey)}
+/* ── TABLE CARD ── */
+.mm-card-body.table-body{padding:0}
+.tbl-header{padding:18px 20px 12px;display:flex;justify-content:space-between;align-items:center}
+.tbl-header h3{font-size:14px;font-weight:700;color:var(--mm-dark)}
+.tbl-count{
+  font-size:11px;font-weight:600;color:var(--mm-primary);
+  background:var(--mm-light-primary);padding:3px 10px;border-radius:20px;
+}
 .tbl-scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-thead th{text-align:left;padding:8px 10px;color:var(--grey);font-weight:600;font-size:11px;
-  text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;border-bottom:2px solid #e5e7eb;
-  cursor:pointer;user-select:none}
-thead th:hover{color:#1a1a2e}
-thead th.sorted-asc::after{content:" ▲"}
-thead th.sorted-desc::after{content:" ▼"}
-tbody tr{border-bottom:1px solid #f3f4f6}
-tbody tr:hover{background:#fafbfc}
-tbody td{padding:8px 10px;white-space:nowrap}
-.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.badge-def{background:#fee2e2;color:var(--red)}
-.badge-ok{background:#dcfce7;color:var(--green)}
-.num-red{color:var(--red);font-weight:600}
-.num-green{color:var(--green)}
-.num-grey{color:var(--grey)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{
+  text-align:left;padding:10px 14px;color:var(--mm-muted);font-weight:700;font-size:11px;
+  text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;
+  border-top:1px solid var(--mm-border);border-bottom:1px solid var(--mm-border);
+  background:#FAFBFD;cursor:pointer;user-select:none;
+}
+thead th:hover{color:var(--mm-primary)}
+thead th.sorted-asc::after{content:" ▲";color:var(--mm-primary)}
+thead th.sorted-desc::after{content:" ▼";color:var(--mm-primary)}
+tbody tr{border-bottom:1px solid var(--mm-border)}
+tbody tr:last-child{border-bottom:0}
+tbody tr:hover{background:#F8FAFF}
+tbody td{padding:10px 14px;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-def{background:var(--mm-light-error);color:var(--mm-error)}
+.badge-ok{background:var(--mm-light-success);color:#05A57F}
+.badge-def::before{content:"●";font-size:8px}
+.badge-ok::before{content:"●";font-size:8px}
+.num-red{color:var(--mm-error);font-weight:600}
+.num-green{color:#05A57F;font-weight:500}
+.num-grey{color:var(--mm-muted);font-size:12px}
 
-/* PAGINATION */
-.pager{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--grey)}
-.pager button{padding:4px 10px;border:1px solid #e5e7eb;border-radius:5px;cursor:pointer;background:#fff}
-.pager button:disabled{opacity:.4;cursor:not-allowed}
-.pager button:not(:disabled):hover{background:#f3f4f6}
+/* ── PAGINATION ── */
+.pager{display:flex;justify-content:flex-end;align-items:center;gap:6px;padding:12px 20px;border-top:1px solid var(--mm-border)}
+.pager button{
+  width:32px;height:32px;border-radius:var(--radius-md);border:1.5px solid var(--mm-border);
+  cursor:pointer;background:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;
+  font-family:inherit;transition:all .15s;
+}
+.pager button:disabled{opacity:.35;cursor:not-allowed}
+.pager button:not(:disabled):hover{background:var(--mm-primary);border-color:var(--mm-primary);color:#fff}
+.pager span{font-size:12px;color:var(--mm-muted);padding:0 4px}
 
-/* FOOTER */
-footer{text-align:center;font-size:11px;color:var(--grey);padding:12px 0 4px}
+/* ── SECTION TITLE ── */
+.section-title{
+  font-size:16px;font-weight:700;color:var(--mm-dark);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title::before{
+  content:'';display:inline-block;width:4px;height:18px;
+  background:var(--mm-primary);border-radius:2px;
+}
 
-@media(max-width:768px){
-  .chart-grid,.chart-grid-2{grid-template-columns:1fr}
-  header{flex-direction:column;align-items:flex-start}
-  .filters{width:100%}
-  .fg select,.fg input{min-width:0;width:100%}
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .main{margin-left:0}
+  .topbar{left:0}
+  .chart-grid,.chart-grid-3{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-<div class="container">
 
-<!-- HEADER -->
-<header>
-  <div class="brand">
-    <h1>Painel de Déficit Orçamentário</h1>
-    <p>CODIM / SUOP / SEFIN — Projeção 2026 vs Liquidado 2025</p>
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+      </div>
+      <div class="brand-text">
+        <h2>CODIM · SUOP</h2>
+        <p>Gestão Orçamentária</p>
+      </div>
+    </div>
   </div>
-  <div class="filters">
+  <nav class="sidebar-nav">
+    <div class="nav-label">Painel</div>
+    <a class="nav-item active" href="#">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      Déficit Orçamentário
+    </a>
+    <div class="nav-label">Análise</div>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      Programações
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+      Execução 2026
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm0 16H5V9h14v11z"/></svg>
+      Exercício 2025
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <p>SEFIN-DF · 2026</p>
+  </div>
+</aside>
+
+<!-- ══ TOPBAR ══ -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-title">Painel de Déficit Orçamentário</div>
+    <div class="topbar-sub">Projeção 2026 vs Liquidado 2025 · CODIM/SUOP/SEFIN</div>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-badge">Exercício 2026</span>
+    <span class="topbar-date" id="topbar-date"></span>
+  </div>
+</header>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main">
+<div class="content">
+
+  <!-- FILTERS -->
+  <div class="filters-bar">
     <div class="fg">
-      <label>UO</label>
+      <label>Unidade Orçamentária</label>
       <select id="f-uo"><option value="">Todas as UOs</option></select>
     </div>
     <div class="fg">
@@ -114,103 +290,142 @@ footer{text-align:center;font-size:11px;color:var(--grey);padding:12px 0 4px}
       <label>Busca PT / Descrição</label>
       <input id="f-busca" type="text" placeholder="Código ou descrição…">
     </div>
-    <button id="clear-btn" onclick="clearFilters()">✕ Limpar</button>
-    <span id="filter-status"></span>
+    <button id="clear-btn" onclick="clearFilters()">✕ Limpar filtros</button>
+    <span id="filter-status" style="display:none"></span>
   </div>
-</header>
 
-<!-- KPIs -->
-<div class="kpi-row">
-  <div class="kpi"><div class="kpi-label">Empenhado 2026</div><div class="kpi-value" id="k-emp">—</div><div class="kpi-sub" id="k-emp-sub"></div></div>
-  <div class="kpi warn"><div class="kpi-label">Déficit Projetado 2026</div><div class="kpi-value" id="k-def26">—</div><div class="kpi-sub">Projeção × saldo disponível</div></div>
-  <div class="kpi warn"><div class="kpi-label">Déficit Realizado 2025</div><div class="kpi-value" id="k-def25">—</div><div class="kpi-sub">Liquidado 2025 − Autorizado 2026</div></div>
-  <div class="kpi warn"><div class="kpi-label">UOs Deficitárias</div><div class="kpi-value" id="k-nuo">—</div><div class="kpi-sub">Projeção 2026 &gt; saldo disponível</div></div>
-</div>
+  <!-- KPI CARDS -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-icon blue">
+        <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+      </div>
+      <div class="kpi-body">
+        <div class="kpi-label">Empenhado 2026</div>
+        <div class="kpi-value blue" id="k-emp">—</div>
+        <div class="kpi-sub" id="k-emp-sub">UOs analisadas</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon red">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      </div>
+      <div class="kpi-body">
+        <div class="kpi-label">Déficit Projetado 2026</div>
+        <div class="kpi-value red" id="k-def26">—</div>
+        <div class="kpi-sub">Projeção × saldo disponível</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon warn">
+        <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+      </div>
+      <div class="kpi-body">
+        <div class="kpi-label">Déficit Realizado 2025</div>
+        <div class="kpi-value warn" id="k-def25">—</div>
+        <div class="kpi-sub">Liquidado 2025 − Autorizado 2026</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon red">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      </div>
+      <div class="kpi-body">
+        <div class="kpi-label">UOs Deficitárias</div>
+        <div class="kpi-value red" id="k-nuo">—</div>
+        <div class="kpi-sub">Projeção 2026 &gt; saldo disponível</div>
+      </div>
+    </div>
+  </div>
 
-<!-- CHARTS ROW 1 -->
-<div class="chart-grid">
-  <div class="card">
-    <h3>Top UOs — Déficit Projetado 2026 (R$ M)</h3>
-    <div class="chart-wrap"><canvas id="c-top"></canvas></div>
+  <!-- CHARTS ROW 1 -->
+  <p class="section-title">Análise por Unidade Orçamentária</p>
+  <div class="chart-grid">
+    <div class="mm-card">
+      <div class="mm-card-header"><h3>Top UOs — Déficit Projetado 2026</h3><p>Valores em R$ milhões · ordenado por déficit</p></div>
+      <div class="mm-card-body"><div class="chart-wrap"><canvas id="c-top"></canvas></div></div>
+    </div>
+    <div class="mm-card">
+      <div class="mm-card-header"><h3>Autorizado × Projeção × Liquidado</h3><p>Comparativo por UO · R$ milhões</p></div>
+      <div class="mm-card-body"><div class="chart-wrap"><canvas id="c-comp"></canvas></div></div>
+    </div>
   </div>
-  <div class="card">
-    <h3>Autorizado × Projeção × Liquidado por UO (R$ M)</h3>
-    <div class="chart-wrap"><canvas id="c-comp"></canvas></div>
-  </div>
-</div>
 
-<!-- CHARTS ROW 2 -->
-<div class="chart-grid-2">
-  <div class="card">
-    <h3>Situação das UOs</h3>
-    <div class="chart-wrap-sm"><canvas id="c-sit"></canvas></div>
+  <!-- CHARTS ROW 2 -->
+  <p class="section-title">Distribuição por Categoria</p>
+  <div class="chart-grid-3">
+    <div class="mm-card">
+      <div class="mm-card-header"><h3>Situação das UOs</h3><p>Deficitárias vs. dentro do saldo</p></div>
+      <div class="mm-card-body"><div class="chart-wrap-sm"><canvas id="c-sit"></canvas></div></div>
+    </div>
+    <div class="mm-card">
+      <div class="mm-card-header"><h3>Déficit por GND</h3><p>Grupo de Natureza de Despesa · R$ milhões</p></div>
+      <div class="mm-card-body"><div class="chart-wrap-sm"><canvas id="c-gnd"></canvas></div></div>
+    </div>
+    <div class="mm-card">
+      <div class="mm-card-header"><h3>Top 5 Fontes com Maior Déficit</h3><p>R$ milhões</p></div>
+      <div class="mm-card-body"><div class="chart-wrap-sm"><canvas id="c-fonte"></canvas></div></div>
+    </div>
   </div>
-  <div class="card">
-    <h3>Déficit por GND (R$ M)</h3>
-    <div class="chart-wrap-sm"><canvas id="c-gnd"></canvas></div>
-  </div>
-  <div class="card">
-    <h3>Top 5 Fontes com Maior Déficit (R$ M)</h3>
-    <div class="chart-wrap-sm"><canvas id="c-fonte"></canvas></div>
-  </div>
-</div>
 
-<!-- TABLE UO -->
-<div class="card" style="margin-bottom:var(--gap)">
-  <div class="tbl-header">
-    <h3>Resumo por UO</h3>
-    <span class="tbl-count" id="uo-count"></span>
+  <!-- TABLE UO -->
+  <p class="section-title">Resumo por Unidade Orçamentária</p>
+  <div class="mm-card" style="margin-bottom:20px">
+    <div class="mm-card-body table-body">
+      <div class="tbl-header">
+        <h3>Resumo por UO</h3>
+        <span class="tbl-count" id="uo-count"></span>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr>
+            <th onclick="sortUO('uo_cod')">Cód.</th>
+            <th onclick="sortUO('uo_nome')">Unidade Orçamentária</th>
+            <th onclick="sortUO('empenhado_2026')" style="text-align:right">Empenhado 2026</th>
+            <th onclick="sortUO('projecao_2026')" style="text-align:right">Projeção 2026</th>
+            <th onclick="sortUO('saldo_total')" style="text-align:right">Saldo</th>
+            <th onclick="sortUO('deficit_2026')" style="text-align:right">Déficit 2026</th>
+            <th onclick="sortUO('deficit_2025')" style="text-align:right">Déficit 2025</th>
+            <th>Situação</th>
+          </tr></thead>
+          <tbody id="uo-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pager" id="uo-pager"></div>
+    </div>
   </div>
-  <div class="tbl-scroll">
-    <table>
-      <thead>
-        <tr>
-          <th onclick="sortUO('uo_cod')">Cód.</th>
-          <th onclick="sortUO('uo_nome')">UO</th>
-          <th onclick="sortUO('empenhado_2026')" style="text-align:right">Empenhado 2026</th>
-          <th onclick="sortUO('projecao_2026')" style="text-align:right">Projeção 2026</th>
-          <th onclick="sortUO('saldo_total')" style="text-align:right">Saldo</th>
-          <th onclick="sortUO('deficit_2026')" style="text-align:right">Déficit 2026</th>
-          <th onclick="sortUO('deficit_2025')" style="text-align:right">Déficit 2025</th>
-          <th>Situação</th>
-        </tr>
-      </thead>
-      <tbody id="uo-tbody"></tbody>
-    </table>
-  </div>
-  <div class="pager" id="uo-pager"></div>
-</div>
 
-<!-- TABLE PROG -->
-<div class="card" style="margin-bottom:var(--gap)">
-  <div class="tbl-header">
-    <h3>Programações detalhadas (PT / ND)</h3>
-    <span class="tbl-count" id="prog-count"></span>
+  <!-- TABLE PROG -->
+  <p class="section-title">Programações Detalhadas</p>
+  <div class="mm-card" style="margin-bottom:24px">
+    <div class="mm-card-body table-body">
+      <div class="tbl-header">
+        <h3>Programações (PT / ND)</h3>
+        <span class="tbl-count" id="prog-count"></span>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr>
+            <th onclick="sortProg('uo_cod')">UO</th>
+            <th onclick="sortProg('pt_cod')">PT</th>
+            <th onclick="sortProg('pt_desc')">Descrição</th>
+            <th onclick="sortProg('fonte')" style="text-align:center">Fonte</th>
+            <th onclick="sortProg('nd')" style="text-align:center">ND</th>
+            <th onclick="sortProg('gnd')" style="text-align:center">GND</th>
+            <th onclick="sortProg('empenhado')" style="text-align:right">Empenhado</th>
+            <th onclick="sortProg('projecao_2026')" style="text-align:right">Projeção</th>
+            <th onclick="sortProg('saldo_total')" style="text-align:right">Saldo</th>
+            <th onclick="sortProg('deficit_2026')" style="text-align:right">Déficit 2026</th>
+          </tr></thead>
+          <tbody id="prog-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pager" id="prog-pager"></div>
+    </div>
   </div>
-  <div class="tbl-scroll">
-    <table>
-      <thead>
-        <tr>
-          <th onclick="sortProg('uo_cod')">UO</th>
-          <th onclick="sortProg('pt_cod')">PT</th>
-          <th onclick="sortProg('pt_desc')">Descrição</th>
-          <th onclick="sortProg('fonte')" style="text-align:center">Fonte</th>
-          <th onclick="sortProg('nd')" style="text-align:center">ND</th>
-          <th onclick="sortProg('gnd')" style="text-align:center">GND</th>
-          <th onclick="sortProg('empenhado')" style="text-align:right">Empenhado</th>
-          <th onclick="sortProg('projecao_2026')" style="text-align:right">Projeção</th>
-          <th onclick="sortProg('saldo_total')" style="text-align:right">Saldo</th>
-          <th onclick="sortProg('deficit_2026')" style="text-align:right">Déficit 2026</th>
-        </tr>
-      </thead>
-      <tbody id="prog-tbody"></tbody>
-    </table>
-  </div>
-  <div class="pager" id="prog-pager"></div>
-</div>
 
-<footer>CODIM / SUOP / SEFIN · Dados: Análise de Déficit Orçamentário 2026 · <span id="gen-date"></span></footer>
-</div>
+</div><!-- /content -->
+</main><!-- /main -->
 
 <script>
 // ── DATA ─────────────────────────────────────────────────────────────────────
@@ -222,9 +437,9 @@ const Rm  = n => 'R$ ' + (n/1e6).toFixed(1).replace('.',',') + 'M';
 const Rb  = n => 'R$ ' + (n/1e9).toFixed(2).replace('.',',') + 'B';
 const abr = (s, max=32) => s && s.length>max ? s.slice(0,max)+'…' : (s||'');
 
-// ── COLOURS ───────────────────────────────────────────────────────────────────
-const RED='#dc2626',BLUE='#2563eb',GREEN='#16a34a',ORANGE='#ea580c',PURPLE='#7c3aed',TEAL='#0891b2';
-const PIE = [RED,GREEN,BLUE,ORANGE,PURPLE,TEAL];
+// ── COLOURS (MaterialM) ────────────────────────────────────────────────────────
+const RED='#FA896B',BLUE='#5D87FF',GREEN='#13DEB9',ORANGE='#FFAE1F',PURPLE='#7460ee',TEAL='#49BEFF';
+const PIE=[RED,BLUE,GREEN,ORANGE,PURPLE,TEAL];
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let filtUO=[], filtProg=[];
@@ -241,23 +456,25 @@ function getFilters(){
     q:   document.getElementById('f-busca').value.toLowerCase().trim()
   };
 }
-
 function applyFilters(){
-  const {uo,sit,q} = getFilters();
-  filtUO = POR_UO.filter(r=>
-    (!uo  || r.uo_cod===uo) &&
-    (!sit || (sit==='DEF' ? r.situacao!=='OK' : r.situacao==='OK'))
+  const {uo,sit,q}=getFilters();
+  filtUO=POR_UO.filter(r=>
+    (!uo||r.uo_cod===uo)&&
+    (!sit||(sit==='DEF'?r.situacao!=='OK':r.situacao==='OK'))
   );
-  filtProg = POR_PROG.filter(r=>
-    (!uo || r.uo_cod===uo) &&
-    (!q  || r.pt_cod.includes(q)||r.pt_desc.toLowerCase().includes(q)||r.uo_nome.toLowerCase().includes(q))
+  filtProg=POR_PROG.filter(r=>
+    (!uo||r.uo_cod===uo)&&
+    (!q||r.pt_cod.includes(q)||r.pt_desc.toLowerCase().includes(q)||r.uo_nome.toLowerCase().includes(q))
   );
   uoPage=0; progPage=0;
-  const active = (uo?1:0)+(sit?1:0)+(q?1:0);
-  document.getElementById('filter-status').textContent = active>0 ? `${active} filtro(s) ativo(s) · ${filtUO.length} UOs` : '';
+  const active=(uo?1:0)+(sit?1:0)+(q?1:0);
+  const fs=document.getElementById('filter-status');
+  if(active>0){
+    fs.textContent=active+' filtro(s) · '+filtUO.length+' UOs · '+filtProg.length+' prog.';
+    fs.style.display='inline-flex';
+  } else { fs.style.display='none'; }
   renderAll();
 }
-
 function clearFilters(){
   document.getElementById('f-uo').value='';
   document.getElementById('f-sit').value='';
@@ -267,41 +484,38 @@ function clearFilters(){
 
 // ── KPIs ─────────────────────────────────────────────────────────────────────
 function renderKPIs(){
-  const emp    = filtUO.reduce((s,r)=>s+r.empenhado_2026,0);
-  const def26  = filtUO.reduce((s,r)=>s+(r.deficit_2026<0?r.deficit_2026:0),0);
-  const def25  = filtUO.reduce((s,r)=>s+(r.deficit_2025<0?r.deficit_2025:0),0);
-  const nDef   = filtUO.filter(r=>r.situacao!=='OK').length;
-  document.getElementById('k-emp').textContent    = Rb(emp);
-  document.getElementById('k-emp-sub').textContent= filtUO.length+' UOs analisadas';
-  document.getElementById('k-def26').textContent  = Rb(def26);
-  document.getElementById('k-def25').textContent  = Rb(def25);
-  document.getElementById('k-nuo').textContent    = nDef+' / '+filtUO.length;
+  const emp=filtUO.reduce((s,r)=>s+r.empenhado_2026,0);
+  const def26=filtUO.reduce((s,r)=>s+(r.deficit_2026<0?r.deficit_2026:0),0);
+  const def25=filtUO.reduce((s,r)=>s+(r.deficit_2025<0?r.deficit_2025:0),0);
+  const nDef=filtUO.filter(r=>r.situacao!=='OK').length;
+  document.getElementById('k-emp').textContent=Rb(emp);
+  document.getElementById('k-emp-sub').textContent=filtUO.length+' UOs analisadas';
+  document.getElementById('k-def26').textContent=Rb(def26);
+  document.getElementById('k-def25').textContent=Rb(def25);
+  document.getElementById('k-nuo').textContent=nDef+' / '+filtUO.length;
 }
 
 // ── CHARTS ────────────────────────────────────────────────────────────────────
 let charts={};
-
-function destroyChart(id){ if(charts[id]){ charts[id].destroy(); delete charts[id]; } }
+function destroyChart(id){ if(charts[id]){charts[id].destroy();delete charts[id];} }
 
 function renderTopChart(){
   destroyChart('top');
-  const sorted = [...filtUO].sort((a,b)=>a.deficit_2026-b.deficit_2026).slice(0,10);
-  const labels = sorted.map(r=>abr(r.uo_nome.split(' ').slice(-2).join(' '),22));
-  const defData  = sorted.map(r=>parseFloat((-r.deficit_2026/1e6).toFixed(1)));
-  const projData = sorted.map(r=>parseFloat((r.projecao_2026/1e6).toFixed(1)));
-  const ctx=document.getElementById('c-top').getContext('2d');
-  charts['top']=new Chart(ctx,{
+  const sorted=[...filtUO].sort((a,b)=>a.deficit_2026-b.deficit_2026).slice(0,10);
+  const labels=sorted.map(r=>abr(r.uo_nome.split(' ').slice(-2).join(' '),22));
+  const defData=sorted.map(r=>parseFloat((-r.deficit_2026/1e6).toFixed(1)));
+  const projData=sorted.map(r=>parseFloat((r.projecao_2026/1e6).toFixed(1)));
+  charts['top']=new Chart(document.getElementById('c-top'),{
     type:'bar',
     data:{labels,datasets:[
-      {label:'Déficit (R$ M)',data:defData,backgroundColor:RED+'cc',borderColor:RED,borderWidth:1,borderRadius:3},
-      {label:'Projeção (R$ M)',data:projData,backgroundColor:BLUE+'33',borderColor:BLUE,borderWidth:1,borderRadius:3}
+      {label:'Déficit (R$ M)',data:defData,backgroundColor:'rgba(250,137,107,.75)',borderColor:RED,borderWidth:1,borderRadius:4},
+      {label:'Projeção (R$ M)',data:projData,backgroundColor:'rgba(93,135,255,.2)',borderColor:BLUE,borderWidth:1,borderRadius:4}
     ]},
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      animation:false,
-      plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:16,font:{size:11}}},
-        tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: R$ ${ctx.parsed.x.toFixed(1)}M`}}},
-      scales:{x:{beginAtZero:true,ticks:{callback:v=>'R$ '+v+'M',font:{size:10}}},
-               y:{ticks:{font:{size:11}}}}
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,
+      plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:16,font:{size:11,family:'Plus Jakarta Sans'}}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label}: R$ ${c.parsed.x.toFixed(1)}M`}}},
+      scales:{x:{beginAtZero:true,ticks:{callback:v=>'R$ '+v+'M',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},
+               y:{ticks:{font:{size:11}},grid:{display:false}}}
     }
   });
 }
@@ -310,19 +524,18 @@ function renderCompChart(){
   destroyChart('comp');
   const sorted=[...filtUO].sort((a,b)=>b.empenhado_2026-a.empenhado_2026).slice(0,8);
   const labels=sorted.map(r=>abr(r.uo_nome.split(' ').slice(-1)[0],12));
-  const ctx=document.getElementById('c-comp').getContext('2d');
-  charts['comp']=new Chart(ctx,{
+  charts['comp']=new Chart(document.getElementById('c-comp'),{
     type:'bar',
     data:{labels,datasets:[
-      {label:'Autorizado',data:sorted.map(r=>+(r.autorizado_2026/1e6).toFixed(1)),backgroundColor:GREEN+'aa',borderColor:GREEN,borderWidth:1,borderRadius:3},
-      {label:'Projeção 2026',data:sorted.map(r=>+(r.projecao_2026/1e6).toFixed(1)),backgroundColor:RED+'aa',borderColor:RED,borderWidth:1,borderRadius:3},
-      {label:'Liquidado 2025',data:sorted.map(r=>+(r.liquidado_2025/1e6).toFixed(1)),backgroundColor:ORANGE+'aa',borderColor:ORANGE,borderWidth:1,borderRadius:3}
+      {label:'Autorizado',data:sorted.map(r=>+(r.autorizado_2026/1e6).toFixed(1)),backgroundColor:'rgba(19,222,185,.6)',borderColor:GREEN,borderWidth:1,borderRadius:3},
+      {label:'Projeção 2026',data:sorted.map(r=>+(r.projecao_2026/1e6).toFixed(1)),backgroundColor:'rgba(250,137,107,.65)',borderColor:RED,borderWidth:1,borderRadius:3},
+      {label:'Liquidado 2025',data:sorted.map(r=>+(r.liquidado_2025/1e6).toFixed(1)),backgroundColor:'rgba(255,174,31,.65)',borderColor:ORANGE,borderWidth:1,borderRadius:3}
     ]},
     options:{responsive:true,maintainAspectRatio:false,animation:false,
-      plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:12,font:{size:11}}},
-        tooltip:{mode:'index',callbacks:{label:ctx=>`${ctx.dataset.label}: R$ ${ctx.parsed.y.toFixed(1)}M`}}},
-      scales:{x:{ticks:{font:{size:10}}},
-               y:{ticks:{callback:v=>'R$ '+v+'M',font:{size:10}}}}
+      plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:12,font:{size:11,family:'Plus Jakarta Sans'}}},
+        tooltip:{mode:'index',callbacks:{label:c=>`${c.dataset.label}: R$ ${c.parsed.y.toFixed(1)}M`}}},
+      scales:{x:{ticks:{font:{size:10}},grid:{display:false}},
+               y:{ticks:{callback:v=>'R$ '+v+'M',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}}}
     }
   });
 }
@@ -331,14 +544,13 @@ function renderSitChart(){
   destroyChart('sit');
   const nDef=filtUO.filter(r=>r.situacao!=='OK').length;
   const nOK=filtUO.length-nDef;
-  const ctx=document.getElementById('c-sit').getContext('2d');
-  charts['sit']=new Chart(ctx,{
+  charts['sit']=new Chart(document.getElementById('c-sit'),{
     type:'doughnut',
     data:{labels:['Deficitária','OK'],datasets:[{data:[nDef,nOK],
-      backgroundColor:[RED+'cc',GREEN+'cc'],borderColor:['#fff','#fff'],borderWidth:3}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',animation:false,
-      plugins:{legend:{position:'right',labels:{usePointStyle:true,padding:16,font:{size:12}}},
-        tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed} UOs`}}}
+      backgroundColor:['rgba(250,137,107,.85)','rgba(19,222,185,.85)'],borderColor:['#fff','#fff'],borderWidth:3}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',animation:false,
+      plugins:{legend:{position:'right',labels:{usePointStyle:true,padding:16,font:{size:12,family:'Plus Jakarta Sans'}}},
+        tooltip:{callbacks:{label:c=>`${c.label}: ${c.parsed} UOs`}}}
     }
   });
 }
@@ -346,18 +558,15 @@ function renderSitChart(){
 function renderGndChart(){
   destroyChart('gnd');
   const m={};
-  filtProg.filter(r=>r.deficit_2026<0).forEach(r=>{
-    const k='GND '+r.gnd; m[k]=(m[k]||0)-r.deficit_2026;
-  });
+  filtProg.filter(r=>r.deficit_2026<0).forEach(r=>{const k='GND '+r.gnd;m[k]=(m[k]||0)-r.deficit_2026;});
   const entries=Object.entries(m).sort((a,b)=>b[1]-a[1]);
-  const ctx=document.getElementById('c-gnd').getContext('2d');
-  charts['gnd']=new Chart(ctx,{
+  charts['gnd']=new Chart(document.getElementById('c-gnd'),{
     type:'doughnut',
     data:{labels:entries.map(e=>e[0]),datasets:[{data:entries.map(e=>+(e[1]/1e6).toFixed(1)),
       backgroundColor:PIE.slice(0,entries.length).map(c=>c+'cc'),borderColor:'#fff',borderWidth:3}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',animation:false,
-      plugins:{legend:{position:'right',labels:{usePointStyle:true,padding:14,font:{size:12}}},
-        tooltip:{callbacks:{label:ctx=>`${ctx.label}: R$ ${ctx.parsed.toFixed(0)}M`}}}
+    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',animation:false,
+      plugins:{legend:{position:'right',labels:{usePointStyle:true,padding:14,font:{size:12,family:'Plus Jakarta Sans'}}},
+        tooltip:{callbacks:{label:c=>`${c.label}: R$ ${c.parsed.toFixed(0)}M`}}}
     }
   });
 }
@@ -365,19 +574,16 @@ function renderGndChart(){
 function renderFonteChart(){
   destroyChart('fonte');
   const m={};
-  filtProg.filter(r=>r.deficit_2026<0).forEach(r=>{
-    const k='Fonte '+r.fonte; m[k]=(m[k]||0)-r.deficit_2026;
-  });
+  filtProg.filter(r=>r.deficit_2026<0).forEach(r=>{const k='Fonte '+r.fonte;m[k]=(m[k]||0)-r.deficit_2026;});
   const entries=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const ctx=document.getElementById('c-fonte').getContext('2d');
-  charts['fonte']=new Chart(ctx,{
+  charts['fonte']=new Chart(document.getElementById('c-fonte'),{
     type:'bar',
     data:{labels:entries.map(e=>e[0]),datasets:[{label:'Déficit (R$ M)',
       data:entries.map(e=>+(e[1]/1e6).toFixed(1)),
-      backgroundColor:PIE.slice(0,5).map(c=>c+'cc'),borderColor:PIE.slice(0,5),borderWidth:1,borderRadius:4}]},
+      backgroundColor:PIE.slice(0,5).map(c=>c+'cc'),borderColor:PIE.slice(0,5),borderWidth:1,borderRadius:6}]},
     options:{responsive:true,maintainAspectRatio:false,animation:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`R$ ${ctx.parsed.y.toFixed(1)}M`}}},
-      scales:{x:{ticks:{font:{size:11}}},y:{ticks:{callback:v=>'R$ '+v+'M',font:{size:10}}}}
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`R$ ${c.parsed.y.toFixed(1)}M`}}},
+      scales:{x:{ticks:{font:{size:11}},grid:{display:false}},y:{ticks:{callback:v=>'R$ '+v+'M',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}}}
     }
   });
 }
@@ -385,18 +591,19 @@ function renderFonteChart(){
 // ── TABLES ────────────────────────────────────────────────────────────────────
 function renderUOTable(){
   const sorted=[...filtUO].sort((a,b)=>{
-    const av=a[uoSort.col], bv=b[uoSort.col];
+    const av=a[uoSort.col],bv=b[uoSort.col];
     return uoSort.dir==='asc'?(av<bv?-1:av>bv?1:0):(av>bv?-1:av<bv?1:0);
   });
   const page=sorted.slice(uoPage*PG,(uoPage+1)*PG);
   document.getElementById('uo-count').textContent=filtUO.length+' UOs';
-  const ths=document.querySelectorAll('#uo-tbody').item(0)?.closest('table').querySelectorAll('th')||[];
   const cols=['uo_cod','uo_nome','empenhado_2026','projecao_2026','saldo_total','deficit_2026','deficit_2025','situacao'];
-  ths.forEach((th,i)=>{th.className=uoSort.col===cols[i]?'sorted-'+uoSort.dir:''});
+  document.querySelectorAll('#uo-tbody').item(0)?.closest('table').querySelectorAll('th').forEach((th,i)=>{
+    th.className=uoSort.col===cols[i]?'sorted-'+uoSort.dir:'';
+  });
   document.getElementById('uo-tbody').innerHTML=page.map(r=>`
     <tr>
       <td class="num-grey">${r.uo_cod}</td>
-      <td title="${r.uo_nome}">${abr(r.uo_nome,40)}</td>
+      <td title="${r.uo_nome}">${abr(r.uo_nome,42)}</td>
       <td style="text-align:right">${Rm(r.empenhado_2026)}</td>
       <td style="text-align:right">${Rm(r.projecao_2026)}</td>
       <td style="text-align:right">${Rm(r.saldo_total)}</td>
@@ -409,7 +616,7 @@ function renderUOTable(){
 
 function renderProgTable(){
   const sorted=[...filtProg].sort((a,b)=>{
-    const av=a[progSort.col], bv=b[progSort.col];
+    const av=a[progSort.col],bv=b[progSort.col];
     return progSort.dir==='asc'?(av<bv?-1:av>bv?1:0):(av>bv?-1:av<bv?1:0);
   });
   const page=sorted.slice(progPage*PG,(progPage+1)*PG);
@@ -418,7 +625,7 @@ function renderProgTable(){
     <tr>
       <td class="num-grey">${r.uo_cod}</td>
       <td style="font-family:monospace;font-size:11px">${r.pt_cod}</td>
-      <td title="${r.pt_desc}">${abr(r.pt_desc,36)}</td>
+      <td title="${r.pt_desc}">${abr(r.pt_desc,38)}</td>
       <td style="text-align:center">${r.fonte}</td>
       <td style="text-align:center">${r.nd}</td>
       <td style="text-align:center">${r.gnd}</td>
@@ -433,55 +640,43 @@ function renderProgTable(){
 function renderPager(id,total,page,cb){
   const last=Math.ceil(total/PG)-1;
   if(total<=PG){document.getElementById(id).innerHTML='';return;}
-  document.getElementById(id).innerHTML=`
-    <button ${page===0?'disabled':''} onclick="(arguments[0].target.disabled)||(${cb.toString()}(${page-1}))">‹</button>
-    <span>Pág. ${page+1} / ${last+1}</span>
-    <button ${page>=last?'disabled':''} onclick="(arguments[0].target.disabled)||(${cb.toString()}(${page+1}))">›</button>`;
-  // re-bind properly
-  const btns=document.getElementById(id).querySelectorAll('button');
-  btns[0].onclick=()=>{ if(page>0)cb(page-1); };
-  btns[1].onclick=()=>{ if(page<last)cb(page+1); };
+  const el=document.getElementById(id);
+  el.innerHTML=`<button id="${id}-prev">‹</button><span>Pág. ${page+1} / ${last+1}</span><button id="${id}-next">›</button>`;
+  document.getElementById(id+'-prev').disabled=page===0;
+  document.getElementById(id+'-next').disabled=page>=last;
+  document.getElementById(id+'-prev').onclick=()=>{if(page>0)cb(page-1);};
+  document.getElementById(id+'-next').onclick=()=>{if(page<last)cb(page+1);};
 }
 
 function sortUO(col){
-  if(uoSort.col===col) uoSort.dir=uoSort.dir==='asc'?'desc':'asc';
-  else { uoSort.col=col; uoSort.dir=col==='uo_cod'||col==='uo_nome'?'asc':'desc'; }
+  if(uoSort.col===col)uoSort.dir=uoSort.dir==='asc'?'desc':'asc';
+  else{uoSort.col=col;uoSort.dir=col==='uo_cod'||col==='uo_nome'?'asc':'desc';}
   renderUOTable();
 }
 function sortProg(col){
-  if(progSort.col===col) progSort.dir=progSort.dir==='asc'?'desc':'asc';
-  else { progSort.col=col; progSort.dir=col==='uo_cod'||col==='pt_cod'||col==='pt_desc'?'asc':'desc'; }
+  if(progSort.col===col)progSort.dir=progSort.dir==='asc'?'desc':'asc';
+  else{progSort.col=col;progSort.dir=col==='uo_cod'||col==='pt_cod'||col==='pt_desc'?'asc':'desc';}
   renderProgTable();
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 function renderAll(){
-  renderKPIs();
-  renderTopChart();
-  renderCompChart();
-  renderSitChart();
-  renderGndChart();
-  renderFonteChart();
-  renderUOTable();
-  renderProgTable();
+  renderKPIs();renderTopChart();renderCompChart();renderSitChart();renderGndChart();renderFonteChart();
+  renderUOTable();renderProgTable();
 }
 
-// Populate UO filter
 const uoMap=new Map(POR_UO.map(r=>[r.uo_cod,r.uo_nome]));
 const sel=document.getElementById('f-uo');
 [...uoMap.entries()].sort((a,b)=>a[1].localeCompare(b[1],'pt')).forEach(([cod,nome])=>{
-  const o=document.createElement('option'); o.value=cod; o.textContent=abr(nome,50); sel.appendChild(o);
+  const o=document.createElement('option');o.value=cod;o.textContent=abr(nome,52);sel.appendChild(o);
 });
 
-// Events
 document.getElementById('f-uo').addEventListener('change',applyFilters);
 document.getElementById('f-sit').addEventListener('change',applyFilters);
 document.getElementById('f-busca').addEventListener('input',applyFilters);
 
-// Date
-document.getElementById('gen-date').textContent=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 
-// Boot
 applyFilters();
 </script>
 </body>
