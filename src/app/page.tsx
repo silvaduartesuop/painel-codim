@@ -91,8 +91,8 @@ export default function Dashboard() {
   const filtUO = useMemo(() => {
     if (!data) return [];
     return data.por_uo.filter(r =>
-      (!filterUO || r.uo_cod === filterUO) &&
-      (!filterSit || r.situacao === filterSit)
+      (!filterUO || String(r.uo_cod) === String(filterUO)) &&
+      (!filterSit || (filterSit === 'DEF' ? r.situacao !== 'OK' : r.situacao === 'OK'))
     );
   }, [data, filterUO, filterSit]);
 
@@ -109,7 +109,7 @@ export default function Dashboard() {
     emp: filtUO.reduce((s, r) => s + r.empenhado_2026, 0),
     def26: filtUO.reduce((s, r) => s + (r.deficit_2026 < 0 ? r.deficit_2026 : 0), 0),
     def25: filtUO.reduce((s, r) => s + (r.deficit_2025 < 0 ? r.deficit_2025 : 0), 0),
-    nDef: filtUO.filter(r => r.situacao === 'DEFICITÁRIA').length,
+    nDef: filtUO.filter(r => r.situacao !== 'OK').length,
     n: filtUO.length,
   }), [filtUO]);
 
@@ -129,7 +129,7 @@ export default function Dashboard() {
     })), [filtUO]);
 
   const sitPie = useMemo(() => {
-    const d = filtUO.filter(r => r.situacao === 'DEFICITÁRIA').length;
+    const d = filtUO.filter(r => r.situacao !== 'OK').length;
     return [{ name: 'Deficitária', value: d }, { name: 'OK', value: filtUO.length - d }];
   }, [filtUO]);
 
@@ -169,7 +169,7 @@ export default function Dashboard() {
               {uoOpts.map(([cod, nome]) => <option key={cod} value={cod}>{abrev(nome, 40)}</option>)}
             </select> },
             { label: 'Situação', node: <select value={filterSit} onChange={e => { setFilterSit(e.target.value); resetPage(); }} style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,.3)', background: 'rgba(255,255,255,.12)', color: '#fff', fontSize: 13 }}>
-              <option value="">Todas</option><option value="DEFICITÁRIA">Deficitária</option><option value="OK">OK</option>
+              <option value="">Todas</option><option value="DEF">Deficitária</option><option value="OK">OK</option>
             </select> },
             { label: 'Busca PT/ND', node: <input value={busca} onChange={e => { setBusca(e.target.value); setProgPage(0); }} placeholder="Código ou descrição…" style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,.3)', background: 'rgba(255,255,255,.12)', color: '#fff', fontSize: 13, minWidth: 200 }} /> },
           ].map(({ label, node }) => (
@@ -195,7 +195,7 @@ export default function Dashboard() {
           <div style={card}>
             <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 14 }}>Top UOs — Déficit vs Projeção 2026 (R$ M)</div>
             <ResponsiveContainer width="100%" height={320}>
-              <BarChart data={top10} layout="vertical" margin={{ left: 8, right: 16 }}>
+              <BarChart key={`top10-${filterUO}-${filterSit}`} data={top10} layout="vertical" margin={{ left: 8, right: 16 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} />
                 <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={v => `${(v as number).toFixed(0)}M`} />
                 <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={110} />
@@ -210,7 +210,7 @@ export default function Dashboard() {
           <div style={card}>
             <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 14 }}>Autorizado × Projeção × Liquidado por UO (R$ M)</div>
             <ResponsiveContainer width="100%" height={320}>
-              <BarChart data={comparChart} margin={{ left: 0, right: 8 }}>
+              <BarChart key={`compar-${filterUO}-${filterSit}`} data={comparChart} margin={{ left: 0, right: 8 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" tick={{ fontSize: 10 }} />
                 <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${((v as number) / 1000).toFixed(0)}B`} />
@@ -229,7 +229,7 @@ export default function Dashboard() {
           <div style={card}>
             <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 14 }}>Situação das UOs</div>
             <ResponsiveContainer width="100%" height={230}>
-              <PieChart>
+              <PieChart key={`sit-${filterUO}-${filterSit}`}>
                 <Pie data={sitPie} cx="50%" cy="50%" outerRadius={90} dataKey="value" label={({ name, value }) => `${name}: ${value}`}>
                   {sitPie.map((_, i) => <Cell key={i} fill={i === 0 ? RED : GREEN} />)}
                 </Pie>
@@ -241,7 +241,7 @@ export default function Dashboard() {
           <div style={card}>
             <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 14 }}>Déficit por GND (R$ M)</div>
             <ResponsiveContainer width="100%" height={230}>
-              <PieChart>
+              <PieChart key={`gnd-${filterUO}-${filterSit}`}>
                 <Pie data={gndPie} cx="50%" cy="50%" outerRadius={90} dataKey="value" label={({ name, value }) => `${name}: ${(value as number).toFixed(0)}M`}>
                   {gndPie.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
                 </Pie>
