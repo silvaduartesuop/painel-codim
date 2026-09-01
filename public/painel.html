@@ -583,9 +583,9 @@ tbody td{padding:9px 13px;white-space:nowrap}
 </div>
 </p>
 
-<p class="sec" id="sec-semob" style="display:none">
-  <h2 style="margin:0 0 .5rem;font-size:1.1rem;color:var(--fg2)">Saldo SEMOB/SEINFRA — SECRETARIA DE EST. DE INFRA-ESTRUTURA E OBRAS (22101)</h2>
-  <div class="kpi-row" style="margin-bottom:1rem">
+<div id="sec-semob" style="display:none;padding:0 0 2rem">
+  <p class="sec">Saldo SEMOB/SEINFRA — SECRETARIA DE EST. DE INFRA-ESTRUTURA E OBRAS (22101)</p>
+<div class="kpi-row" style="margin-bottom:1rem">
     <div class="kpi-card"><div class="kpi-body"><span class="lbl">Cota disponível</span><span class="val" id="sec-semob-kpi-c">—</span></div></div>
     <div class="kpi-card"><div class="kpi-body"><span class="lbl">Contingenciado</span><span class="val" id="sec-semob-kpi-k">—</span></div></div>
     <div class="kpi-card"><div class="kpi-body"><span class="lbl">Crédito disponível</span><span class="val" id="sec-semob-kpi-d">—</span></div></div>
@@ -605,11 +605,12 @@ tbody td{padding:9px 13px;white-space:nowrap}
   <div style="font-size:.72rem;color:var(--fg2);margin-top:.5rem">
     Fonte: Saldo Online Subtítulos — Base Contingenciável. Exibe apenas linhas com Cota ou Contingenciamento &gt; 0.
   </div>
-</p>
 
-<p class="sec" id="sec-novacap" style="display:none">
-  <h2 style="margin:0 0 .5rem;font-size:1.1rem;color:var(--fg2)">Saldo NOVACAP — COMPANHIA NOVACAP (22201)</h2>
-  <div class="kpi-row" style="margin-bottom:1rem">
+</div>
+
+<div id="sec-novacap" style="display:none;padding:0 0 2rem">
+  <p class="sec">Saldo NOVACAP — COMPANHIA NOVACAP (22201)</p>
+<div class="kpi-row" style="margin-bottom:1rem">
     <div class="kpi-card"><div class="kpi-body"><span class="lbl">Cota disponível</span><span class="val" id="sec-novacap-kpi-c">—</span></div></div>
     <div class="kpi-card"><div class="kpi-body"><span class="lbl">Contingenciado</span><span class="val" id="sec-novacap-kpi-k">—</span></div></div>
     <div class="kpi-card"><div class="kpi-body"><span class="lbl">Crédito disponível</span><span class="val" id="sec-novacap-kpi-d">—</span></div></div>
@@ -629,7 +630,8 @@ tbody td{padding:9px 13px;white-space:nowrap}
   <div style="font-size:.72rem;color:var(--fg2);margin-top:.5rem">
     Fonte: Saldo Online Subtítulos — Base Contingenciável. Exibe apenas linhas com Cota ou Contingenciamento &gt; 0.
   </div>
-</p>
+
+</div>
 </main>
 
 <script>
@@ -1390,7 +1392,7 @@ function initCC(){
 <script>
 document.addEventListener('DOMContentLoaded',function(){
   var lnk=document.querySelector('[data-section="sec-cota"]');
-  if(lnk) lnk.addEventListener('click',function(){setTimeout(initCC,50);});
+  if(lnk) lnk.addEventListener('click',function(){var s=document.getElementById('sec-cota');if(s)s.style.display='block';setTimeout(initCC,50);});
 });
 </script>
 
@@ -1520,8 +1522,8 @@ function novacapInit(){
   }
   document.addEventListener('DOMContentLoaded',function(){
     var si=false,ni=false;
-    hookTab('sec-semob',  function(){if(!si){si=true;semobInit();}});
-    hookTab('sec-novacap',function(){if(!ni){ni=true;novacapInit();}});
+    hookTab('sec-semob',  function(){var s=document.getElementById('sec-semob');if(s)s.style.display='block';if(!si){si=true;semobInit();}});
+    hookTab('sec-novacap',function(){var s=document.getElementById('sec-novacap');if(s)s.style.display='block';if(!ni){ni=true;novacapInit();}});
   });
 })();
 </script>
