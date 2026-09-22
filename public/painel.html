@@ -347,14 +347,13 @@ tbody td{padding:9px 13px;white-space:nowrap}
 <p class="sec" id="sec-prog">Programações Detalhadas</p>
 <div class="card" style="margin-bottom:24px">
   <div class="card-b tb">
-    <div class="tbl-h"><h3>Programações (PT / ND)</h3><span class="count" id="prog-count"></span></div>
+    <div class="tbl-h"><h3>Programações (PT)</h3><div style="display:flex;align-items:center;gap:10px"><span class="count" id="prog-count"></span><button class="export-btn" onclick="exportProgExcel()"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel</button></div></div>
     <div class="tscroll"><table>
       <thead><tr>
         <th onclick="sortProg('uo_cod')">UO</th>
         <th onclick="sortProg('pt_cod')">PT</th>
         <th onclick="sortProg('pt_desc')">Descrição</th>
         <th onclick="sortProg('fonte')" style="text-align:center">Fonte</th>
-        <th onclick="sortProg('nd')" style="text-align:center">ND</th>
         <th onclick="sortProg('gnd')" style="text-align:center">GND</th>
         <th onclick="sortProg('empenhado')" style="text-align:right">Empenhado</th>
         <th onclick="sortProg('projecao_2026')" style="text-align:right">Projeção (anual.)</th>
@@ -901,7 +900,6 @@ function renderProgTable(){
       <td style="font-family:monospace;font-size:11px">${r.pt_cod}</td>
       <td title="${r.pt_desc}">${abr(r.pt_desc,38)}</td>
       <td style="text-align:center">${r.fonte}</td>
-      <td style="text-align:center">${r.nd}</td>
       <td style="text-align:center">${r.gnd}</td>
       <td style="text-align:right">${Rm(r.empenhado)}</td>
       <td style="text-align:right">${Rm(r.projecao_2026)}</td>
@@ -949,6 +947,26 @@ function exportUOExcel(){
   ws['!cols']=[{wch:8},{wch:50},{wch:18},{wch:18},{wch:18},{wch:12},{wch:18},{wch:18},{wch:12}];
   XLSX.utils.book_append_sheet(wb,ws,'Resumo UO');
   XLSX.writeFile(wb,'resumo_uo_codim_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+function exportProgExcel(){
+  const cols=['Cód. UO','Unidade Orçamentária','PT','Descrição','Fonte','ND','GND','Empenhado 2026','Projeção 2026 (anual.)','Saldo (cota+conting.+disponível)','Déficit 2026','Liquidado 2025','Déficit 2025'];
+  const sorted=[...filtProg].sort((a,b)=>{
+    const av=a[progSort.col],bv=b[progSort.col];
+    return progSort.dir==='asc'?(av<bv?-1:av>bv?1:0):(av>bv?-1:av<bv?1:0);
+  });
+  const rows=sorted.map(r=>[
+    r.uo_cod, r.uo_nome, r.pt_cod, r.pt_desc,
+    r.fonte, r.nd, r.gnd,
+    r.empenhado, r.projecao_2026, r.saldo_total, r.deficit_2026,
+    r.liquidado_2025, r.deficit_2025
+  ]);
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet([cols,...rows]);
+  ws['!cols']=[{wch:8},{wch:42},{wch:20},{wch:52},{wch:12},{wch:10},{wch:6},{wch:18},{wch:20},{wch:22},{wch:18},{wch:18},{wch:18}];
+  ws['!autofilter']={ref:XLSX.utils.encode_range({s:{r:0,c:0},e:{r:rows.length,c:cols.length-1}})};
+  XLSX.utils.book_append_sheet(wb,ws,'Programações');
+  XLSX.writeFile(wb,'programacoes_codim_'+new Date().toISOString().slice(0,10)+'.xlsx');
 }
 
 function exportSaldoExcel(){
