@@ -1,6 +1,73 @@
 {
-  "atualizado_em": "2026-10-23T16:55:31",
+  "atualizado_em": "2026-10-23T17:15:17",
   "execucoes": [
+    {
+      "inicio": "2026-10-23T17:10:15",
+      "fim": "2026-10-23T17:15:17",
+      "status": "ok",
+      "itens": [
+        {
+          "consulta": "4.1 Saldo Online Subtítulos",
+          "pasta": "zzzDocs",
+          "status": "ok",
+          "xls": "zzzDocs\\4.1 Saldo Online Subtítulos.xls",
+          "copia_diaria": "zzzDocs\\2026-10-23\\4.1 Saldo Online Subtítulos.xls",
+          "tamanho_kb": 3932.8,
+          "duracao_s": 96.9,
+          "mensagens": [
+            "XLS anterior movido para a pasta diária (4.1 Saldo Online Subtítulos_anterior_171016.xls)",
+            "Discoverer iniciado",
+            "Diálogo respondido com 'OK': Falha ao atualizar o Registro do sistema.\nTente usar REGEDIT.",
+            "Login enviado",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Cópia diária gravada em 2026-10-23"
+          ]
+        },
+        {
+          "consulta": "Saldo Online Fonte de cancelamento (1)",
+          "pasta": "zzzDocs",
+          "status": "ok",
+          "xls": "zzzDocs\\Saldo Online Fonte de cancelamento (1).xls",
+          "copia_diaria": "zzzDocs\\2026-10-23\\Saldo Online Fonte de cancelamento (1).xls",
+          "tamanho_kb": 1312.7,
+          "duracao_s": 93.1,
+          "mensagens": [
+            "XLS anterior movido para a pasta diária (Saldo Online Fonte de cancelamento (1)_anterior_171153.xls)",
+            "Tentativa 1 falhou: Campo do nome do arquivo não encontrado no diálogo Abrir. Controles: ['Button:', 'Button:', 'Static:', 'Static:Meu Computador', 'Static:Banco de Dados', 'Button:', 'Button:', 'Static:Gerenciador de Programação', 'Static:Utilizados Mais Recentemente', 'Static:Para abrir um arquivo de trabalho armazenado no seu computador ou em um disco de rede acessível por seu computador: Clique em Abrir.', 'Static:Onde está o arquivo de trabalho que você deseja abrir?', 'Static:', 'Button:Abrir...', 'Button:Cancelar', 'Button:Aj&uda']",
+            "Discoverer iniciado",
+            "Diálogo respondido com 'OK': Falha ao atualizar o Registro do sistema.\nTente usar REGEDIT.",
+            "Login enviado",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Cópia diária gravada em 2026-10-23"
+          ]
+        },
+        {
+          "consulta": "SALDO ONLINE SIGGO SALDO",
+          "pasta": "Extenções Siggo",
+          "status": "ok",
+          "xls": "Extenções Siggo\\SALDO ONLINE SIGGO SALDO.xls",
+          "copia_diaria": null,
+          "tamanho_kb": 2130.0,
+          "duracao_s": 35.7,
+          "mensagens": [
+            "Tentativa 1 falhou: Campo do nome do arquivo não encontrado no diálogo Abrir. Controles: ['Button:', 'Button:', 'Static:', 'Static:Meu Computador', 'Static:Banco de Dados', 'Button:', 'Button:', 'Static:Gerenciador de Programação', 'Static:Utilizados Mais Recentemente', 'Static:Para abrir um arquivo de trabalho armazenado no seu computador ou em um disco de rede acessível por seu computador: Clique em Abrir.', 'Static:Onde está o arquivo de trabalho que você deseja abrir?', 'Static:', 'Button:Abrir...', 'Button:Cancelar', 'Button:Aj&uda']",
+            "Discoverer iniciado",
+            "Diálogo respondido com 'OK': Falha ao atualizar o Registro do sistema.\nTente usar REGEDIT.",
+            "Login enviado",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Diálogo respondido com 'Sim': Esta consulta deverá levar 0 segundo(s) para ser concluída. Deseja continuar?",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Diálogo respondido com 'Sim': \"C:\\Extenções Siggo\\SALDO ONLINE SIGGO SALDO.xls\" já existe. Deseja sobregravá-lo?",
+            "XLS substituído (sem cópia diária)"
+          ]
+        }
+      ]
+    },
     {
       "inicio": "2026-10-23T16:50:53",
       "fim": "2026-10-23T16:55:31",
