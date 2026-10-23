@@ -1,6 +1,74 @@
 {
-  "atualizado_em": "2026-10-23T16:47:43",
+  "atualizado_em": "2026-10-23T16:55:31",
   "execucoes": [
+    {
+      "inicio": "2026-10-23T16:50:53",
+      "fim": "2026-10-23T16:55:31",
+      "status": "ok",
+      "itens": [
+        {
+          "consulta": "4.1 Saldo Online Subtítulos",
+          "pasta": "zzzDocs",
+          "status": "ok",
+          "xls": "zzzDocs\\4.1 Saldo Online Subtítulos.xls",
+          "copia_diaria": "zzzDocs\\2026-10-23\\4.1 Saldo Online Subtítulos.xls",
+          "tamanho_kb": 3932.6,
+          "duracao_s": 83.9,
+          "mensagens": [
+            "XLS anterior movido para a pasta diária (4.1 Saldo Online Subtítulos_anterior_165053.xls)",
+            "Discoverer iniciado",
+            "Diálogo respondido com 'OK': Falha ao atualizar o Registro do sistema.\nTente usar REGEDIT.",
+            "Login enviado",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Consulta concluída",
+            "Diálogo Exportar não abriu (comando 1/3)",
+            "Exportação finalizada",
+            "Cópia diária gravada em 2026-10-23"
+          ]
+        },
+        {
+          "consulta": "Saldo Online Fonte de cancelamento (1)",
+          "pasta": "zzzDocs",
+          "status": "ok",
+          "xls": "zzzDocs\\Saldo Online Fonte de cancelamento (1).xls",
+          "copia_diaria": "zzzDocs\\2026-10-23\\Saldo Online Fonte de cancelamento (1).xls",
+          "tamanho_kb": 1312.6,
+          "duracao_s": 87.2,
+          "mensagens": [
+            "XLS anterior movido para a pasta diária (Saldo Online Fonte de cancelamento (1)_anterior_165217.xls)",
+            "Tentativa 1 falhou: Campo do nome do arquivo não encontrado no diálogo Abrir",
+            "Discoverer iniciado",
+            "Diálogo respondido com 'OK': Falha ao atualizar o Registro do sistema.\nTente usar REGEDIT.",
+            "Login enviado",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Cópia diária gravada em 2026-10-23"
+          ]
+        },
+        {
+          "consulta": "SALDO ONLINE SIGGO SALDO",
+          "pasta": "Extenções Siggo",
+          "status": "ok",
+          "xls": "Extenções Siggo\\SALDO ONLINE SIGGO SALDO.xls",
+          "copia_diaria": "Extenções Siggo\\2026-10-23\\SALDO ONLINE SIGGO SALDO.xls",
+          "tamanho_kb": 2130.0,
+          "duracao_s": 32.1,
+          "mensagens": [
+            "XLS anterior movido para a pasta diária (SALDO ONLINE SIGGO SALDO_anterior_165413.xls)",
+            "Tentativa 1 falhou: Campo do nome do arquivo não encontrado no diálogo Abrir",
+            "Discoverer iniciado",
+            "Diálogo respondido com 'OK': Falha ao atualizar o Registro do sistema.\nTente usar REGEDIT.",
+            "Login enviado",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Diálogo respondido com 'Sim': Esta consulta deverá levar 0 segundo(s) para ser concluída. Deseja continuar?",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Cópia diária gravada em 2026-10-23"
+          ]
+        }
+      ]
+    },
     {
       "inicio": "2026-10-23T16:43:29",
       "fim": "2026-10-23T16:47:43",
