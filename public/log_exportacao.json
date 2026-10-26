@@ -1,6 +1,69 @@
 {
-  "atualizado_em": "2026-10-23T17:22:17",
+  "atualizado_em": "2026-10-26T13:53:28",
   "execucoes": [
+    {
+      "inicio": "2026-10-26T13:49:50",
+      "fim": "2026-10-26T13:53:28",
+      "status": "ok",
+      "itens": [
+        {
+          "consulta": "4.1 Saldo Online Subtítulos",
+          "pasta": "zzzDocs",
+          "status": "ok",
+          "xls": "zzzDocs\\4.1 Saldo Online Subtítulos.xls",
+          "copia_diaria": "zzzDocs\\2026-10-26\\4.1 Saldo Online Subtítulos.xls",
+          "tamanho_kb": 3934.6,
+          "duracao_s": 92.7,
+          "mensagens": [
+            "XLS anterior movido para a pasta diária (4.1 Saldo Online Subtítulos_anterior_134950.xls)",
+            "Discoverer iniciado",
+            "Diálogo respondido com 'OK': Falha ao atualizar o Registro do sistema.\nTente usar REGEDIT.",
+            "Login enviado",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Cópia diária gravada em 2026-10-26"
+          ]
+        },
+        {
+          "consulta": "Saldo Online Fonte de cancelamento (1)",
+          "pasta": "zzzDocs",
+          "status": "ok",
+          "xls": "zzzDocs\\Saldo Online Fonte de cancelamento (1).xls",
+          "copia_diaria": "zzzDocs\\2026-10-26\\Saldo Online Fonte de cancelamento (1).xls",
+          "tamanho_kb": 1313.8,
+          "duracao_s": 82.7,
+          "mensagens": [
+            "XLS anterior movido para a pasta diária (Saldo Online Fonte de cancelamento (1)_anterior_135123.xls)",
+            "Clicou em Abrir... (diálogo de arquivos)",
+            "Consulta aberta pelo menu Arquivo > Abrir",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Cópia diária gravada em 2026-10-26"
+          ]
+        },
+        {
+          "consulta": "SALDO ONLINE SIGGO SALDO",
+          "pasta": "Extenções Siggo",
+          "status": "ok",
+          "xls": "Extenções Siggo\\SALDO ONLINE SIGGO SALDO.xls",
+          "copia_diaria": null,
+          "tamanho_kb": 2131.2,
+          "duracao_s": 24.9,
+          "mensagens": [
+            "Clicou em Abrir... (diálogo de arquivos)",
+            "Consulta aberta pelo menu Arquivo > Abrir",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Diálogo respondido com 'Sim': Esta consulta deverá levar 0 segundo(s) para ser concluída. Deseja continuar?",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Diálogo respondido com 'Sim': \"C:\\Extenções Siggo\\SALDO ONLINE SIGGO SALDO.xls\" já existe. Deseja sobregravá-lo?",
+            "XLS substituído (sem cópia diária)"
+          ]
+        }
+      ]
+    },
     {
       "inicio": "2026-10-23T17:18:48",
       "fim": "2026-10-23T17:22:17",
