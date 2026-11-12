@@ -1,6 +1,64 @@
 {
-  "atualizado_em": "2026-11-09T14:09:44",
+  "atualizado_em": "2026-11-12T17:54:26",
   "execucoes": [
+    {
+      "inicio": "2026-11-12T17:51:41",
+      "fim": "2026-11-12T17:54:26",
+      "status": "parcial",
+      "itens": [
+        {
+          "consulta": "4.1 Saldo Online Subtítulos",
+          "pasta": "zzzDocs",
+          "status": "ok",
+          "xls": "zzzDocs\\4.1 Saldo Online Subtítulos.xls",
+          "copia_diaria": "zzzDocs\\2026-11-12\\4.1 Saldo Online Subtítulos.xls",
+          "tamanho_kb": 3997.1,
+          "duracao_s": 89.1,
+          "mensagens": [
+            "XLS anterior movido para a pasta diária (4.1 Saldo Online Subtítulos_anterior_175200.xls)",
+            "Discoverer iniciado",
+            "Diálogo respondido com 'OK': Falha ao atualizar o Registro do sistema.\nTente usar REGEDIT.",
+            "Login enviado",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Cópia diária gravada em 2026-11-12"
+          ]
+        },
+        {
+          "consulta": "Saldo Online Fonte de cancelamento (1)",
+          "pasta": "zzzDocs",
+          "status": "erro",
+          "xls": null,
+          "copia_diaria": null,
+          "tamanho_kb": null,
+          "duracao_s": 0.2,
+          "mensagens": [
+            "Tentativa 1 falhou: Não consegui mover Saldo Online Fonte de cancelamento (1).xls anterior (arquivo aberto?): [WinError 32] O arquivo já está sendo usado por outro processo: 'D:\\\\SEFIN\\\\RECENTES\\\\SUOP\\\\A0000 - NOVA SUOP\\\\2026\\\\CODIM\\\\ZCasão\\\\zzzDocs\\\\Saldo Online Fonte de cancelamento (1).xls' -> 'D:\\\\SEFIN\\\\RECENTES\\\\SUOP\\\\A0000 - NOVA SUOP\\\\2026\\\\CODIM\\\\ZCasão\\\\zzzDocs\\\\2026-11-12\\\\Saldo Online Fonte de cancelamento (1)_anterior_175329.xls'",
+            "Tentativa 2 falhou: Não consegui mover Saldo Online Fonte de cancelamento (1).xls anterior (arquivo aberto?): [WinError 32] O arquivo já está sendo usado por outro processo: 'D:\\\\SEFIN\\\\RECENTES\\\\SUOP\\\\A0000 - NOVA SUOP\\\\2026\\\\CODIM\\\\ZCasão\\\\zzzDocs\\\\Saldo Online Fonte de cancelamento (1).xls' -> 'D:\\\\SEFIN\\\\RECENTES\\\\SUOP\\\\A0000 - NOVA SUOP\\\\2026\\\\CODIM\\\\ZCasão\\\\zzzDocs\\\\2026-11-12\\\\Saldo Online Fonte de cancelamento (1)_anterior_175339.xls'"
+          ]
+        },
+        {
+          "consulta": "SALDO ONLINE SIGGO SALDO",
+          "pasta": "Extenções Siggo",
+          "status": "ok",
+          "xls": "Extenções Siggo\\SALDO ONLINE SIGGO SALDO.xls",
+          "copia_diaria": null,
+          "tamanho_kb": 2176.3,
+          "duracao_s": 28.1,
+          "mensagens": [
+            "Clicou em Abrir... (diálogo de arquivos)",
+            "Consulta aberta pelo menu Arquivo > Abrir",
+            "Diálogo respondido com 'Sim': Deseja executar a consulta para a folha \"Folha 1\"? Se você clicar em Não, a folha ficará vazia.\nDica: Você pode usar o c",
+            "Diálogo respondido com 'Sim': Esta consulta deverá levar 0 segundo(s) para ser concluída. Deseja continuar?",
+            "Consulta concluída",
+            "Exportação finalizada",
+            "Diálogo respondido com 'Sim': \"C:\\Extenções Siggo\\SALDO ONLINE SIGGO SALDO.xls\" já existe. Deseja sobregravá-lo?",
+            "XLS substituído (sem cópia diária)"
+          ]
+        }
+      ]
+    },
     {
       "inicio": "2026-11-09T14:05:54",
       "fim": "2026-11-09T14:09:44",
